@@ -10,14 +10,15 @@
 int  BitLen; // длина битового поля - макс. к-во битов // количество бит в передаваемых байтах
 TELEM *pMem; // память для представления битового поля
 int  MemLen; // к-во эл-тов Мем для представления бит.поля */
+#define BITS_IN_ONE_MEM (sizeof(TELEM) * 8)
 TBitField::TBitField(int len)
 {
-	if (len < 1)
+	if (len < 0)
 	{
 		throw(len);
 	}
 	BitLen = len;
-	MemLen = (len + 31) >>5;
+	MemLen = (len - 1) / BITS_IN_ONE_MEM + 1;
 	pMem = new TELEM[MemLen];
 	if (pMem != 0)
 		for (register int i = 0; i < MemLen; i++)
@@ -47,7 +48,7 @@ int TBitField::GetMemIndex(const int n) const // индекс Мем для би
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
-	return (1 << (n & 31));
+	return (1 << n);
 }
 
 // доступ к битам битового поля
