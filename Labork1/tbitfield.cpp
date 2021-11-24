@@ -38,17 +38,16 @@ TBitField::TBitField(const TBitField &bf) // конструктор копиро
 TBitField::~TBitField()
 {
 	delete []pMem;
-	pMem = 0;
 }
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
-	return (n >> 5);
+	return (n / BITS_IN_ONE_MEM);
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
-	return ((TELEM)1 << (n & BITS_IN_ONE_MEM - 1));
+	return ((TELEM)1 << (n & (BITS_IN_ONE_MEM - 1)));
 	//return (1 << n);
 }
 
